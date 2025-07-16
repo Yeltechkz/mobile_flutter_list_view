@@ -7,6 +7,7 @@ import 'dart:math' as math;
 class FlutterListView extends CustomScrollView {
   final SliverChildDelegate delegate;
   final FlutterListViewController? _controller;
+  final EdgeInsets padding;
 
   const FlutterListView({
     Key? key,
@@ -27,6 +28,7 @@ class FlutterListView extends CustomScrollView {
         ScrollViewKeyboardDismissBehavior.manual,
     String? restorationId,
     Clip clipBehavior = Clip.hardEdge,
+    this.padding = EdgeInsets.zero,
   })  : _controller = controller,
         super(
             key: key,
@@ -67,6 +69,7 @@ class FlutterListView extends CustomScrollView {
         ScrollViewKeyboardDismissBehavior.manual,
     String? restorationId,
     Clip clipBehavior = Clip.hardEdge,
+    this.padding = EdgeInsets.zero,
   })  : _controller = controller,
         delegate = SliverChildBuilderDelegate(
           itemBuilder,
@@ -113,6 +116,7 @@ class FlutterListView extends CustomScrollView {
         ScrollViewKeyboardDismissBehavior.manual,
     String? restorationId,
     Clip clipBehavior = Clip.hardEdge,
+    this.padding = EdgeInsets.zero,
   })  : _controller = controller,
         delegate = SliverChildBuilderDelegate(
           (BuildContext context, int index) {
@@ -159,9 +163,12 @@ class FlutterListView extends CustomScrollView {
   @override
   List<Widget> buildSlivers(BuildContext context) {
     return [
-      FlutterSliverList(
-        delegate: delegate,
-        controller: _controller?.sliverController,
+      SliverPadding(
+        padding: padding,
+        sliver: FlutterSliverList(
+          delegate: delegate,
+          controller: _controller?.sliverController,
+        ),
       )
     ];
   }
